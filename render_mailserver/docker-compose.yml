@@ -1,0 +1,28 @@
+
+version: '3.7'
+
+services:
+  mail:
+    build: ./mail
+    container_name: mailserver
+    restart: always
+    ports:
+      - "143:143"
+    volumes:
+      - maildata:/var/mail
+    environment:
+      - MAIL_DOMAIN=livepro.app
+      - MAIL_USER=info@livepro.app
+      - MAIL_PASS=Test1234
+
+  webmail:
+    build: ./webmail
+    container_name: roundcube
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - mail
+
+volumes:
+  maildata:
